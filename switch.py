@@ -228,7 +228,7 @@ class FreeboxHomeNodeSwitch(FreeboxSwitch):
             identifiers={(DOMAIN, self._home_node["id"])},
             model=f'{self._home_node["category"]}',
             name=f"{self._home_node['label']}",
-            sw_version=fw_version,
+            sw_version=str(fw_version),
             via_device=(
                 DOMAIN,
                 self._router.mac,
