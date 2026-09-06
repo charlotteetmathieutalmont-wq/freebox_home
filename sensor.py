@@ -292,7 +292,7 @@ class FreeboxDiskSensor(FreeboxSensor):
             model=self._disk["model"],
             name=f"Disk {self._disk['id']}",
             sw_version=str(self._disk["firmware"]),
-            via_device_id=router.device_id,
+            via_device_id=self._router.device_id,
             manufacturer="Freebox SAS",
         )
 
@@ -372,7 +372,7 @@ class FreeboxHomeNodeSensor(FreeboxSensor):
             model=f'{self._home_node["category"]}',
             name=f"{self._home_node['label']}",
             sw_version=str(fw_version),
-            via_device_id=router.device_id,
+            via_device_id=self._router.device_id,
             manufacturer="Freebox SAS",
         )
 
