@@ -19,7 +19,6 @@ from homeassistant.components.cover import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.helpers.entity import DeviceInfo
@@ -281,11 +280,7 @@ class FreeboxHomeNodeCover(FreeboxCover):
             model=self._home_node["category"],
             name=self._home_node["label"],
             sw_version=self._home_node.get("props", {}).get("FwVersion"),
-            via_device_id=dr.async_get_device_id_by_identifier(
-                self.hass,
-                (DOMAIN, self._router.mac),
-                config_entry_id=self._router.config_entry.entry_id,
-            ),
+            via_device_id=router.device_id,
             manufacturer="Freebox SAS",
         )
 
