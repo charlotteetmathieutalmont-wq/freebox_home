@@ -120,10 +120,7 @@ class FreeboxHomeEntity(Entity):
             model=self._model,                   # What type of device it is
             name=self._device_name,              # Human-readable name
             sw_version=self._firmware,           # Firmware version
-            via_device=(                         # Connected through the Freebox router
-                DOMAIN,
-                router.mac,
-            ),
+           via_device_id=router.device_id,       # Connected through the Freebox router
         )
 
     async def async_update_signal(self) -> None:
