@@ -161,6 +161,8 @@ class FreeboxRouter:
         self.model_id: str = freebox_config["model_info"]["name"]
         self.hw_version: str = freebox_config.get("board_name", "Unknown")
 
+        self.device_id: str | None = None
+
         self.supports_hosts: bool = True
         self.supports_raid: bool = True
 
@@ -626,7 +628,12 @@ class FreeboxRouter:
         """
         for entity_id in list(self._active_refresh_timers.keys()):
             self.stop_entity_refresh_timer(entity_id)
-
+    
+    @property
+    def sw_version(self) -> str:
+        """Return the Freebox firmware version."""
+        return self._sw_v
+    
     @property
     def device_info(self) -> DeviceInfo:
         """ Return metadata describing the Freebox router.
