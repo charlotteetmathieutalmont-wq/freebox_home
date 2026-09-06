@@ -19,7 +19,6 @@ from homeassistant.components.generic.camera import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import template
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -197,10 +196,6 @@ class FreeboxHomeNodeCamera(FreeBoxCamera):
             model=CATEGORY_TO_MODEL.get(self._home_node["category"]),
             name=f"{self._home_node['label']}",
             sw_version=fw_version,
-            via_device_id=dr.async_get_device_id_by_identifier(
-                self.hass,
-                (DOMAIN, self._router.mac),
-                config_entry_id=self._router.config_entry.entry_id,
-            ),
+            via_device_id=router.device_id,
             manufacturer="Freebox SAS",
         )
