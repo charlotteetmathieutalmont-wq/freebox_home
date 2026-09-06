@@ -196,6 +196,6 @@ class FreeboxHomeNodeCamera(FreeBoxCamera):
             model=CATEGORY_TO_MODEL.get(self._home_node["category"]),
             name=f"{self._home_node['label']}",
             sw_version=fw_version,
-            via_device_id=router.device_id,
+            via_device_id=self._router.device_id,
             manufacturer="Freebox SAS",
         )
