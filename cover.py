@@ -280,7 +280,7 @@ class FreeboxHomeNodeCover(FreeboxCover):
             model=self._home_node["category"],
             name=self._home_node["label"],
             sw_version=self._home_node.get("props", {}).get("FwVersion"),
-            via_device_id=router.device_id,
+            via_device_id=self._router.device_id,
             manufacturer="Freebox SAS",
         )
 
