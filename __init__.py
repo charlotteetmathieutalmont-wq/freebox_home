@@ -20,6 +20,7 @@ from homeassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP
 from homeassistant.core import Event, HomeAssistant, ServiceCall
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.event import (
     async_track_time_interval,
     async_track_utc_time_change,
@@ -136,6 +137,24 @@ async def async_setup_entry(hass: HomeAssistant, entry: FreeboxConfigEntry) -> b
         raise ConfigEntryNotReady from err
 
     router = FreeboxRouter(hass, entry, api, freebox_config)
+    
+    device_registry = dr.async_get(hass)
+
+    router_device = device_registry.async_get_or_create(
+        config_entry_id=entry.entry_id,
+        identifiers={(DOMAIN, router.mac)},
+        connections={(dr.CONNECTION_NETWORK_MAC, router.mac)},
+        manufacturer="Freebox SAS",
+        model=router.name,
+        model_id=router.model_id,
+        name=router.name,
+        sw_version=router._sw_v,
+        hw_version=router.hw_version,
+        configuration_url=f"https://{host}:{port}/",
+    )
+    
+    router.device_id = router_device.id
+
     _LOGGER.info(
         "Freebox router initialized: %s (%s) at %s:%s",
         router.name,
