@@ -148,7 +148,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: FreeboxConfigEntry) -> b
         model=router.name,
         model_id=router.model_id,
         name=router.name,
-        sw_version=router._sw_v,
+        sw_version=router.sw_version,
         hw_version=router.hw_version,
         configuration_url=f"https://{host}:{port}/",
     )
