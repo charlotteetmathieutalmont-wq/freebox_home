@@ -12,10 +12,12 @@ from homeassistant.components.sensor import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfDataRate, UnitOfTemperature
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 import homeassistant.util.dt as dt_util
+
 
 from .const import (
     CALL_SENSORS,
@@ -291,9 +293,10 @@ class FreeboxDiskSensor(FreeboxSensor):
             model=self._disk["model"],
             name=f"Disk {self._disk['id']}",
             sw_version=str(self._disk["firmware"]),
-            via_device=(
-                DOMAIN,
-                self._router.mac,
+            via_device_id=dr.async_get_device_id_by_identifier(
+                self.hass,
+                (DOMAIN, self._router.mac),
+                config_entry_id=self._router.config_entry.entry_id,
             ),
             manufacturer="Freebox SAS",
         )
@@ -374,9 +377,10 @@ class FreeboxHomeNodeSensor(FreeboxSensor):
             model=f'{self._home_node["category"]}',
             name=f"{self._home_node['label']}",
             sw_version=str(fw_version),
-            via_device=(
-                DOMAIN,
-                self._router.mac,
+            via_device_id=dr.async_get_device_id_by_identifier(
+                self.hass,
+                (DOMAIN, self._router.mac),
+                config_entry_id=self._router.config_entry.entry_id,
             ),
             manufacturer="Freebox SAS",
         )
